@@ -1,0 +1,131 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int coef,exp;
+	struct node *next;
+};
+struct node *createpll()
+{
+	int ch;
+	struct node *head=NULL,*newnode,*temp;
+	do
+	{
+		newnode=(struct node*)malloc(sizeof(struct node));
+		printf("Enter the Coefficient and Exponent\n");
+		scanf("%d %d",&newnode->coef,&newnode->exp);
+		newnode->next=NULL;
+		if(head==NULL)
+		{
+			head=newnode;
+			temp=newnode;
+		}
+		else
+		{
+			temp->next=newnode;
+			temp=temp->next;
+		}
+		printf("Enter\n 1.To create new node\n0.To Cancel\n");
+		scanf("%d",&ch);
+	}while(ch==1);
+	return head;
+}
+struct node *addition(struct node *temp,struct node *temp1)
+{
+	struct node *newnode,*headn=NULL,*tail;
+	while(temp!=NULL&&temp1!=NULL)
+	{
+		newnode=(struct node*)malloc(sizeof(struct node));
+		newnode->next=NULL;
+		if(temp->exp>temp1->exp)
+		{
+			newnode->exp=temp->exp;
+			newnode->coef=temp->coef;
+			temp=temp->next;
+		}
+		else if(temp->exp<temp1->exp)
+		{
+			newnode->exp=temp1->exp;
+            newnode->coef=temp1->coef;
+			temp1=temp1->next;
+        }
+		else
+		{
+			newnode->exp=temp->exp;
+			newnode->coef=temp->coef+temp1->coef;
+			temp=temp->next;
+			temp1=temp1->next;
+		}
+		if(headn==NULL)
+		{
+			headn=newnode;
+			tail=headn;
+			tail->next=NULL;
+		}
+		else
+		{
+			tail=newnode;
+			tail->next=NULL;
+			tail=tail->next;
+		}
+	}
+	while(temp!=NULL)
+	{
+		newnode=(struct node*)malloc(sizeof(struct node));
+		newnode->exp=temp->exp;
+        newnode->coef=temp->coef;
+		tail=newnode;
+        tail->next=NULL;
+        tail=tail->next;
+	}
+	while(temp1!=NULL)
+	{
+		newnode=(struct node*)malloc(sizeof(struct node));
+		newnode->exp=temp1->exp;
+        newnode->coef=temp1->coef;
+        tail=newnode;
+        tail->next=NULL;
+        tail=tail->next;
+    }
+	return newnode;
+}
+void traverse(struct node *temp)
+{
+	while(temp!=NULL)
+	{
+		printf("%c%dX^%d",temp->coef>0?'+':'-',temp->coef,temp->exp);
+		temp=temp->next;
+	}
+	printf("\n");
+}
+int main()
+{
+	struct node *head,*head1,*headn;
+	int ch;
+	printf("Create 1 polynomial\n");
+	head=createpll();
+	do
+	{
+		printf("Enter your choice 1.Display\n2.Addition\n0.Exit\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+		case 1:
+			printf("The 1st polynomial is\n");
+			traverse(head);
+			break;
+		case 2:
+		    printf("Create 2nd polynomial\n");
+	        head1=createpll();
+			printf("2nd plynoial is\n");
+			traverse(head1);
+			headn=addition(head,head1);
+			printf("Polynomial after addition\n");
+			traverse(headn);
+			break;
+		default:
+			printf("Enter valid choice\n");
+	}
+}while(ch!=0);
+return 0;\
+}

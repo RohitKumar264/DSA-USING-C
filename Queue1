@@ -1,0 +1,90 @@
+#include<stdio.h>
+#define N 5
+int queue[N];
+int front=0,rear=-1;
+int isempty()
+{
+	if(rear<front)
+	{
+		return 1;
+	}
+	return 0;
+}
+int isfull()
+{
+	if(rear==N-1)
+	{
+		return 1;
+	}
+	return 0;
+}
+void equeue()
+{
+	if(!isfull())
+	{
+		printf("Enter the value to insert\n");
+		scanf("%d",&queue[++rear]);
+		return ;
+	}
+	else
+		printf("Overflow\n");
+}
+void delete()
+{
+	int x;
+	if(isempty())
+	{
+		printf("Underflow\n");
+		return;
+	}
+	else if(rear==front)
+	{
+		x=queue[front];
+		front=0;
+		rear=-1;
+	}
+	else
+	{
+		x=queue[front];
+		front++;
+	}
+	printf("THe dependent element is%d\n",x);
+}
+void display()
+{
+	int i=front;
+	while(i<=rear)
+	{
+		printf("%d\t",queue[i]);
+		i++;
+	}
+}
+int main()
+{
+	int ch;
+	do
+	{
+		printf("ENter your choice\n1.Insert\n2.delete\n3.Display\n0.Exit\n");
+        scanf("%d",&ch);
+
+	switch(ch)
+	{
+		case 1:
+			equeue();
+			break;
+		case 2:
+			delete();
+			break;
+		case 3:
+			display();
+			break;
+		case 0:
+			printf("Exiting\n");
+			break;
+		default:
+			printf("Invalid choice\n");
+	}
+	}while(ch!=0);
+	return 0;
+}
+

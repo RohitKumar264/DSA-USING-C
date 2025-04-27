@@ -1,0 +1,200 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int data;
+	struct node *next;
+};
+struct node *createcll()
+{
+	int ch;
+	struct node *newnode, *head,*temp;
+	head=NULL;
+	do
+	{
+		newnode=(struct node*)malloc(sizeof(struct node));
+		printf("Enter data\n");
+		scanf("%d",&newnode->data);
+		newnode->next=head;
+		if(head==NULL)
+		{
+			head=newnode;
+			temp=newnode;
+		}
+		else
+		{
+			temp->next=newnode;
+			temp=temp->next;
+		}
+		printf("Enter\n1.To create node\n0.To Cancel\n");
+		scanf("%d",&ch);
+	}while(ch==1);
+	return head;
+}
+int len(struct node *head)
+{
+	int c=1;
+	struct node *temp=head;
+	if(head==NULL)
+		return 0;
+	else
+	{
+		while(temp->next!=head)
+		{
+			c++;
+			temp=temp->next;
+		}
+	}
+	return c;
+}
+void traverse(struct node *head)
+{
+	struct node *temp=head;
+	if(temp==NULL)
+	{
+		printf("List is empty\n");
+		return ;
+	}
+	else
+	{
+		while(temp->next!=head)
+		{
+			printf("%d\t",temp->data);
+			temp=temp->next;
+		}
+		printf("%d",temp->data);
+	}
+	printf("\n");
+}
+struct node *insertb(struct node*head)
+{
+	struct node *temp,*newnode;
+	temp=head;
+	newnode=(struct node*)malloc(sizeof(struct node));
+	printf("Enter the data\n");
+	scanf("%d",&newnode->data);
+	newnode->next=head;
+	while(temp->next!=head)
+	{
+		temp=temp->next;
+	}
+	temp->next=newnode;
+	head=newnode;
+	return newnode;
+}
+struct node *insertl(struct node *head)
+{
+	struct node *newnode,*temp=head;
+	while(temp->next!=head)
+	{
+		temp=temp->next;
+	}
+	newnode=(struct node*)malloc(sizeof(struct node));
+	printf("Enter Data\n");
+	scanf("%d",&newnode->data);
+	newnode->next=head;
+	temp->next=newnode;
+	return head;
+}
+struct node *insertp(struct node *head)
+{
+	struct node *newnode,*temp=head;
+	int pos,t=1;
+	printf("Enter position where to insert\n");
+	scanf("%d",&pos);
+	if(pos>len(head))
+	{
+		printf("Insertion not possible\n");
+		return head;
+	}
+	while(t<pos-1)
+	{
+		temp=temp->next;
+		t++;
+	}
+	newnode=(struct node*)malloc(sizeof(struct node));
+	printf("Enter data\n");
+	scanf("%d",&newnode->data);
+	newnode->next=temp->next;
+	temp->next=newnode;
+	return head;
+}
+struct node *deleteb(struct node *head)
+{
+	struct node *temp=head;
+	while(temp->next!=head)
+	{
+		temp=temp->next;
+	}
+	temp->next=head->next;
+	temp=head;
+	head=head->next;
+	free(temp);
+	return head;
+}
+struct node *dtend(struct node *head)
+{
+	struct node *temp=head,*prev;
+	while(temp->next!=head)
+	{
+		prev=temp;
+		temp=temp->next;
+	}
+	if(head->next==NULL)
+	{
+		head=NULL;
+	}
+	else
+	{
+		prev->next=head;
+		free(temp);
+		return head;
+	}
+}
+struct node *dtap(struct node *head)
+{
+	struct node *temp=head,*nextnode;
+	int i,pos,l=len(head);
+	printf("ENter the position to delete\n");
+	scanf("%d",&pos);
+	while(i<pos-1)
+	{
+		temp=temp->next;
+		i++;
+	}
+	nextnode=temp->next;
+	temp->next=nextnode->next;
+	free(nextnode);
+	return head;
+}
+int main()
+{
+	struct node *head;
+	printf("Create A node\n");
+	head=createcll();
+	printf("The Circlular LInked List is\n");
+	traverse(head);
+	printf("Insertion at begining\n");
+	head=insertb(head);
+	printf("After insertion\n");
+	traverse(head);
+	printf("Insertion at last\n");
+        head=insertl(head);
+        printf("After insertion\n");
+        traverse(head);
+	printf("Insertion at any position\n");
+        head=insertp(head);
+        printf("After insertion\n");
+        traverse(head);
+	printf("Deletion at end\n");
+	head=dtend(head);
+	traverse(head);
+	printf("Deletion at any pos\n");
+	head=dtap(head);
+	traverse(head);
+	printf("Deletion at begining\n");
+	head=deleteb(head);
+	traverse(head);
+
+	return 0;
+}

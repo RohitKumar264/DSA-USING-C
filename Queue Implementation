@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+	int data;
+	struct node *next,*prev;
+}node;
+
+node *insertb(node *head)
+{
+	node *newnode;
+	newnode=(node*)malloc(sizeof(node));
+	if(newnode==NULL)
+	{
+		printf("Insertion not possible\n");
+		return head;
+	}
+	printf("Enter data\n");
+	scanf("%d",&newnode->data);
+	newnode->prev=NULL;
+	newnode->next=head;
+	if(head!=NULL)
+	{
+		head->prev=newnode;
+	}
+	head=newnode;
+	return head;
+}
+node *deletel(node *head)
+{
+	node *temp=head,*prev;
+	while(temp->next!=NULL)
+	{
+		temp=temp->next;
+	}
+	prev=temp->prev;
+	prev->next=NULL;
+	free(temp);
+	return head;
+}
+node *enqueue(node *head)
+{
+	head=insertb(head);
+	return head;
+}
+node *dequeue(node *head)
+{
+	head=deletel(head);
+	return head;
+}
+void traverse(node *head)
+{
+	node *temp=head;
+	if(temp==NULL)
+		return ;
+	else
+	{
+		while(temp->next!=NULL)
+		{
+			printf("%d\t",temp->data);
+			temp=temp->next;
+		}
+		printf("%d",temp->data);
+	}
+	printf("\n");
+}
+int main()
+{
+	node *head=NULL;
+	int ch;
+	do
+	{
+		printf("Enter your choice\n1.Insert\n2.Delete\n3.Traverse\n0.Exit\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1:
+				head=enqueue(head);
+				break;
+			case 2:
+				head=dequeue(head);
+				break;
+			case 3:
+				traverse(head);
+				break;
+			case 0:
+				printf("Exiting...\n");
+				break;
+		}
+	}while(ch!=0);
+	return 0;
+}

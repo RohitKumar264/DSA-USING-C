@@ -1,0 +1,78 @@
+#include<stdio.h>
+#define n 20
+int stack[n];
+int top=-1;
+int push(int x)
+{
+    if(top!=n-1)
+    {
+        stack[++top]=x;
+    }
+}
+int pop()
+{
+    if(top!=-1)
+    {
+        return stack[top--];
+    }
+    else
+    printf("Underflow\n");
+    return 0;
+}
+int isoprnd(char x)
+{
+    return (('a'<=x &&'z'>=x)||('A'<=x &&'Z'>=x));
+}
+void evaluate(char x)
+{
+    int a,b,c=1;
+    b=pop();
+    a=pop();
+    switch(x)
+    {
+        case '+':
+        c=a+b;
+        break;
+        case '-':
+        c=a-b;
+        break;
+        case '*':
+        c=a*b;
+        break;
+        case '/':
+        c=a/b;
+        break;
+        case '^':
+        while(b>0)
+        {
+            c=c*a;
+            b--;
+        }
+        break;
+        default:
+        printf("Not valid operator\n");
+    }
+    push(c);
+}
+int main()
+{
+    char str[20];
+    int x,i;
+    printf("Enter the string to evaluate\n");
+    scanf("%[^\n]",str);
+    for(i=0;str[i]!='\0';i++)
+    {
+        if(isoprnd(str[i]))
+        {
+            printf("Enter the value of %c\n",str[i]);
+            scanf("%d",&x);
+            push(x);
+        }
+        else
+        {
+            evaluate(str[i]);
+        }
+    }
+    printf("The evaluated expression is %d\n",pop());
+    return 0;
+}

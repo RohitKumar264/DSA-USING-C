@@ -1,0 +1,78 @@
+#include<stdio.h>
+#define N 10
+int stack[N];
+int top=-1;
+void push(int x)
+{
+    if(top!=N-1)
+    {
+        stack[++top]=x;
+    }
+}
+int pop()
+{
+    if(top!=-1)
+    {
+        return stack[top--];
+    }
+    else
+    printf("Underflow\n");
+    return 0;
+}
+int isoprnd(char x)
+{
+    return (('a'<=x&&'z'>=x)||('A'<=x && 'Z'>=x));
+}
+void evaluate(char x)
+{
+    int a,b,c=1;
+    b=pop();
+    a=pop();
+    switch(x)
+    {
+        case '+':
+        c=a+b;
+        break;
+        case '-':
+        c=a-b;
+        break;
+        case '*':
+        c=a*b;
+        break;
+        case '/':
+        c=a/b;
+        break;
+        case '^':
+            while(b>0)
+            {
+                c=c*a;
+                b--;
+            }
+            break;
+    }
+    push(c);
+}
+int main()
+{
+    int n,i;
+    char str[50];
+    printf("Enter thr string to be evaluated\n");
+    scanf("%s",str);
+    for(i=0;str[i]!='\0';i++)
+    {
+        if(isoprnd(str[i]))
+        {
+            printf("Enter the value of %c\n",str[i]);
+            scanf("%d",&n);
+            push(n);
+        }
+        else
+        {
+            evaluate(str[i]);
+        }
+    }
+    printf("The result is %d\n",pop());
+    return 0;
+}
+
+

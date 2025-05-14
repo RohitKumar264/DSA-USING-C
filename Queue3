@@ -1,0 +1,148 @@
+#include<stdio.h>
+#define N 5
+int queue[5];
+int front=-1,rear=-1;
+int isfull()
+{
+	return front==(rear+1)%N;
+}
+int isempty()
+{
+	return front==-1&&rear==-1;
+}
+void enquef(int x)
+{
+	if(isfull())
+		printf("Overflow\n");
+	else if(front==-1&&rear==-1)
+	{
+		front=0;rear=0;
+		queue[front]=x;
+	}
+	else if(front==0)
+	{
+		front=N-1;
+		queue[front]=x;
+	}
+	else
+	{
+		front--;
+		queue[front]=x;
+	}
+}
+void enquer(int x)
+{
+	if(isfull())
+		printf("Overflow\n");
+	else if(front==-1&&rear==-1)
+	{
+		front=rear=0;
+		queue[rear]=x;
+	}
+	else
+	{
+		rear=(rear+1)%N;
+		queue[rear]=x;
+	}
+}
+int dequef()
+{
+	int x;
+	if(isempty())
+		printf("Underflow\n");
+	else if(front==rear)
+	{
+		x=queue[front];
+		front=-1;rear=-1;
+	}
+	else
+	{
+		x=queue[front];
+		front=(front+1)%N;
+	}
+	return x;
+}
+int dequer()
+{
+	int x;
+	if(isempty())
+		printf("Underflow\n");
+	else if(front==-1)
+	{
+		x=queue[rear];
+		front=-1;rear=-1;
+	}
+	else if(rear==0)
+	{
+		x=queue[rear];
+		rear=N-1;
+	}
+	else
+	{
+		x=queue[rear];
+		rear--;
+	}
+	return x;
+}
+int getfront()
+{
+	return queue[front];
+}
+int getrear()
+{
+	return queue[rear];
+}
+void display()
+{
+	int i=front;
+	while(i!=rear)
+	{
+		printf("%d\t",queue[i]);
+		i=(i+1)%N;
+	}
+	printf("%d\n",queue[i]);
+}
+int main()
+{
+	int ch,n;
+	do
+	{
+		printf("Enter your choice\n1.ENQUEF 2.ENQUER 3.DEQUEF 4.DEQUER 5.Getfront 6.Getrear 7.Display\n");
+		scanf("%d",&ch);
+		switch(ch)
+		{
+			case 1:
+				printf("ENter number to insert\n");
+				scanf("%d",&n);
+				enquef(n);
+				break;
+			case 2:
+				printf("ENter number to insert\n");
+                scanf("%d",&n);
+                enquer(n);
+                break;
+			case 3:
+				printf("Deleted elemt is %d\n",dequef());
+				break;
+			case 4:
+				printf("Deleted element is %d\n",dequer());
+				break;
+			case 5:
+				printf("Front is %d\n",getfront());
+				break;
+			case 6:
+				printf("Rear is %d\n",getrear());
+				break;
+			case 7:
+				display();
+				break;
+			case 0:
+				printf("Exiting.....\n");
+				break;
+			default:
+				printf("ENter valid choice\n");
+		}
+	}while(ch!=0);
+	return 0;
+}	
+

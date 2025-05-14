@@ -1,0 +1,106 @@
+#include<stdio.h>
+#define n 5
+char stack[n];
+int top=-1;
+int isempty()
+{
+    return top==-1;
+}
+int isfull()
+{
+    return top==n-1;
+}
+void push(char x)
+{
+    if(!isfull())
+    {
+        stack[++top]=x;
+    }
+    else
+    printf("Overflow\n");
+}
+char pop()
+{
+    if(!isempty())
+    {
+        return stack[top--];
+    }
+    else
+    printf("Underflow\n");
+}
+char peek()
+{
+    if(!isempty())
+    {
+        return stack[top];
+    }
+}
+int isoprnd(char x)
+{
+    return (('a'<=x&&'z'>=x)||('A'<=x&&'Z'>=x));
+}
+int prec(char x)
+{
+    switch(x)
+    {
+        case '+':
+        case '-':
+        return 1;
+        case '*':
+        case '/':
+        return 2;
+        case '^':
+        return 3;
+    }
+}
+void inftopst(char str[20])
+{
+    int i,j=0;
+    char ch,opt[20];
+    for(i=0;str[i]!='\0';i++)
+    {
+        ch=str[i];
+        if(isoprnd(ch))
+        {
+            opt[j++]=ch;
+        }
+        else if(ch=='(')
+        {
+            push(ch);
+        }
+        else if(ch==')')
+        {
+            while(peek()!='(')
+            {
+                opt[j++]=pop();
+            }
+            pop();
+        }
+        else
+        {
+            while(!isempty()&&peek()!='('&&prec(peek())>=prec(ch))
+            {
+                if(ch=='^'&&peek()=='^')
+                {
+                    break;
+                }
+                opt[j++]=pop();
+            }     
+        push(ch);
+        }
+    }
+        while(!isempty())
+        {
+            opt[j++]=pop();
+        }
+        opt[j]='\0';
+        printf("The postfix is %s",opt);
+}
+int main()
+{
+    char str[30];
+    printf("Enter the infix expression\n");
+    scanf("%s",str);
+    inftopst(str);
+    return 0;
+}

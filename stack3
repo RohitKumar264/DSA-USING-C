@@ -1,0 +1,59 @@
+#include<stdio.h>
+#include<string.h>
+#define n 20
+int stack[n];
+int top=-1;
+int isfull()
+{
+	return top==n-1;
+}
+void push(char x)
+{
+	if(!isfull())
+	{
+		top++;
+		stack[top]=x;
+	}
+	else
+		printf("Overflow\n");
+}
+int isempty()
+{
+	if(top==-1)
+	{
+		return 1;
+	}
+}
+char pop()
+{
+	char x;
+	if(!isempty()==0)
+	{
+		x=stack[top];
+		top--;
+		return x;
+	}
+	else
+	printf("Underflow\n");
+}
+int main()
+{
+	char ch[30]="(A+B-(C*D)+E/F+(G*H+I)+J)",i,x,len;
+	len=strlen(ch);
+	for(i=0;i<len;i++)
+	{
+		if(ch[i]=='(')
+		{
+			push(ch[i]);
+		}
+		else if(ch[i]==')')
+		{
+			pop();
+		}
+		else if(top==-1)
+			break;
+	}
+	return 0;
+}
+
+	

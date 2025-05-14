@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include<string.h>
+#define n 20
+char stack[n];
+int top=-1;
+int isfull()
+{
+	return top==n-1;
+}
+int isempty()
+{
+	if(top==-1)
+	{
+		return 1;
+	}
+}
+void push(char c)
+{
+	int i;
+	if(!isfull())
+	{
+		top++;
+		stack[top]=c;;
+	}
+	else
+		printf("Overflow\n");
+}
+char pop()
+{
+	printf("%c",stack[top--]);
+}
+int main()
+{
+	char ch[20],c;int i,len;
+	printf("ENter the string\n");
+	scanf("%[^\n]",ch);
+	len=strlen(ch);
+	for(i=0;i<len;i++)
+	{
+	push(ch[i]);
+	}
+	for(i=0;i<len;i++)
+	{
+	pop();
+	}
+	return 0;
+}
+

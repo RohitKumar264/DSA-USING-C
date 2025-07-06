@@ -1,0 +1,29 @@
+//sum
+#include<stdio.h>
+int sum(int a[],int len);
+void prnt(int a[],int len);
+int main()
+{
+	int a[10]={2,5,6,8,1,7,3},len,s;
+	len=7;
+	printf("The array \n");
+	prnt(a,len);
+	s=sum(a,len);
+	printf("Sum of array elements %d \n",s);
+	return 0;
+}
+int sum(int a[],int len)
+{
+	int i,s=0;
+	for(i=0;i<len;i++)
+		s=s+a[i];
+	return s;
+}
+void prnt(int a[],int len)
+{
+	int i;
+	for(i=0;i<len;i++)
+		printf("%d\t",a[i]);
+}
+
+
